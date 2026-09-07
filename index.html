@@ -9,13 +9,15 @@
 <meta name="description"
 content="Bharat Kirana Store Live — Watch our live broadcasts, store updates, special events and announcements.">
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
 <style>
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -27,6 +29,8 @@ body {
     color: white;
     min-height: 100vh;
 }
+
+/* HEADER */
 
 header {
     position: sticky;
@@ -71,6 +75,8 @@ header {
 .nav-links a:hover {
     color: #4ade80;
 }
+
+/* HERO */
 
 .hero {
     max-width: 1200px;
@@ -119,6 +125,8 @@ header {
     line-height: 1.7;
 }
 
+/* PLAYER */
+
 .player-section {
     max-width: 1200px;
     margin: auto;
@@ -138,13 +146,21 @@ header {
         0 25px 70px rgba(0, 0, 0, 0.5);
 }
 
-video {
+/*
+   SSH101 OFFICIAL EMBED PLAYER
+*/
+
+.player-container iframe {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
+    border: 0;
     display: block;
     background: #000;
-    object-fit: contain;
 }
+
+/* LIVE BADGE */
 
 .live-label {
     position: absolute;
@@ -158,38 +174,10 @@ video {
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 1px;
+    pointer-events: none;
 }
 
-.offline-screen {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    background:
-        radial-gradient(circle at center, rgba(34, 197, 94, 0.08), transparent 45%),
-        #030605;
-    padding: 25px;
-}
-
-.offline-screen h2 {
-    font-size: clamp(25px, 5vw, 42px);
-    margin-bottom: 12px;
-}
-
-.offline-screen p {
-    color: #9ca3af;
-    max-width: 500px;
-    line-height: 1.6;
-}
-
-.offline-icon {
-    font-size: 55px;
-    margin-bottom: 18px;
-}
+/* STATUS */
 
 .status-area {
     max-width: 1200px;
@@ -220,8 +208,9 @@ video {
 .status-indicator {
     width: 11px;
     height: 11px;
-    background: #ef4444;
+    background: #22c55e;
     border-radius: 50%;
+    box-shadow: 0 0 12px #22c55e;
 }
 
 .status-text {
@@ -244,6 +233,8 @@ video {
     filter: brightness(1.1);
 }
 
+/* SECTIONS */
+
 .section {
     max-width: 1200px;
     margin: auto;
@@ -254,6 +245,8 @@ video {
     font-size: 30px;
     margin-bottom: 25px;
 }
+
+/* CARDS */
 
 .grid {
     display: grid;
@@ -289,20 +282,7 @@ video {
     font-size: 14px;
 }
 
-.stream-box {
-    margin-top: 25px;
-    background: #020604;
-    border: 1px solid rgba(74, 222, 128, 0.15);
-    border-radius: 12px;
-    padding: 15px;
-    overflow-x: auto;
-}
-
-.stream-box code {
-    color: #86efac;
-    font-size: 13px;
-    word-break: break-all;
-}
+/* SCHEDULE */
 
 .schedule {
     display: grid;
@@ -323,6 +303,8 @@ video {
     color: #4ade80;
     font-weight: bold;
 }
+
+/* CHAT */
 
 .chat-box {
     background: rgba(12, 23, 18, 0.75);
@@ -380,6 +362,8 @@ video {
     font-size: 12px;
 }
 
+/* FOOTER */
+
 footer {
     border-top: 1px solid rgba(74, 222, 128, 0.12);
     padding: 30px 25px;
@@ -392,9 +376,24 @@ footer strong {
     color: #4ade80;
 }
 
+/* MOBILE */
+
 @media (max-width: 800px) {
+
+    .navbar {
+        padding: 15px 18px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
     .nav-links {
         display: none;
+    }
+
+    .hero {
+        padding-top: 50px;
     }
 
     .grid {
@@ -411,6 +410,15 @@ footer strong {
         align-items: flex-start;
         gap: 6px;
     }
+
+    .player-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .player-container {
+        border-radius: 14px;
+    }
 }
 </style>
 </head>
@@ -418,7 +426,9 @@ footer strong {
 <body>
 
 <header>
+
     <div class="navbar">
+
         <div class="logo">
             BHARAT <span>KIRANA</span> LIVE
         </div>
@@ -429,16 +439,24 @@ footer strong {
             <a href="#chat">Chat</a>
             <a href="#info">Info</a>
         </nav>
+
     </div>
+
 </header>
 
+
 <main>
+
+<!-- HERO -->
 
 <section class="hero" id="live">
 
     <div class="badge">
-        <span class="dot" id="heroDot"></span>
-        <span id="heroStatus">CHECKING STREAM</span>
+
+        <span class="dot"></span>
+
+        <span>LIVE BROADCAST</span>
+
     </div>
 
     <h1>
@@ -454,38 +472,32 @@ footer strong {
 
 </section>
 
+
+<!-- VIDEO PLAYER -->
+
 <section class="player-section">
 
     <div class="player-container">
 
-        <div class="live-label" id="liveLabel">
-            OFFLINE
+        <div class="live-label">
+            ● LIVE
         </div>
 
-        <video
-            id="video"
-            controls
-            autoplay
-            muted
-            playsinline>
-        </video>
-
-        <div class="offline-screen" id="offlineScreen">
-
-            <div class="offline-icon">📡</div>
-
-            <h2>WE ARE CURRENTLY OFFLINE</h2>
-
-            <p>
-                The live broadcast has not started yet.
-                Please check back when the stream is live.
-            </p>
-
-        </div>
+        <iframe
+            src="https://ssh101.com/securelive/index.php?id=bharatkirana53"
+            frameborder="0"
+            scrolling="no"
+            align="middle"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
 
     </div>
 
 </section>
+
+
+<!-- STATUS -->
 
 <section class="status-area">
 
@@ -493,21 +505,28 @@ footer strong {
 
         <div class="status-left">
 
-            <div class="status-indicator" id="statusIndicator"></div>
+            <div class="status-indicator"></div>
 
-            <div class="status-text" id="statusText">
-                Stream Offline
+            <div class="status-text">
+                Live player connected to SSH101
             </div>
 
         </div>
 
-        <button class="refresh-button" onclick="startStream()">
-            Refresh Stream
+        <button
+            class="refresh-button"
+            onclick="refreshPlayer()">
+
+            Refresh Player
+
         </button>
 
     </div>
 
 </section>
+
+
+<!-- SCHEDULE -->
 
 <section class="section" id="schedule">
 
@@ -518,23 +537,41 @@ footer strong {
     <div class="schedule">
 
         <div class="schedule-item">
+
             <span>Daily</span>
-            <span>Live Store Broadcast</span>
+
+            <span>
+                Live Store Broadcast
+            </span>
+
         </div>
 
         <div class="schedule-item">
+
             <span>Special Events</span>
-            <span>Announcements & Programs</span>
+
+            <span>
+                Announcements & Programs
+            </span>
+
         </div>
 
         <div class="schedule-item">
+
             <span>Updates</span>
-            <span>Store News & Community Updates</span>
+
+            <span>
+                Store News & Community Updates
+            </span>
+
         </div>
 
     </div>
 
 </section>
+
+
+<!-- CHAT -->
 
 <section class="section" id="chat">
 
@@ -544,13 +581,21 @@ footer strong {
 
     <div class="chat-box">
 
-        <div class="chat-messages" id="chatMessages">
+        <div
+            class="chat-messages"
+            id="chatMessages">
+
             <div class="chat-message">
-                <strong>System:</strong> Welcome to Bharat Kirana Store Live!
+                <strong>System:</strong>
+                Welcome to Bharat Kirana Store Live!
             </div>
+
         </div>
 
-        <form class="chat-form" onsubmit="sendMessage(event)">
+
+        <form
+            class="chat-form"
+            onsubmit="sendMessage(event)">
 
             <input
                 type="text"
@@ -565,6 +610,7 @@ footer strong {
 
         </form>
 
+
         <div class="note">
             Chat messages are currently stored only in this browser.
         </div>
@@ -572,6 +618,9 @@ footer strong {
     </div>
 
 </section>
+
+
+<!-- INFORMATION -->
 
 <section class="section" id="info">
 
@@ -582,217 +631,104 @@ footer strong {
     <div class="grid">
 
         <div class="card">
-            <div class="card-icon">🎥</div>
-            <h3>Live Broadcasting</h3>
+
+            <div class="card-icon">
+                🎥
+            </div>
+
+            <h3>
+                Live Broadcasting
+            </h3>
+
             <p>
-                The website receives the live broadcast through the
-                streaming server and plays it directly in the video player.
+                Watch the Bharat Kirana Store live broadcast
+                directly through the SSH101 player.
             </p>
+
         </div>
+
 
         <div class="card">
-            <div class="card-icon">⚡</div>
-            <h3>Fast Playback</h3>
+
+            <div class="card-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Fast Playback
+            </h3>
+
             <p>
-                HLS playback is supported using HLS.js with native
-                browser fallback where available.
+                The website uses the official SSH101 embedded
+                player for reliable stream playback.
             </p>
+
         </div>
+
 
         <div class="card">
-            <div class="card-icon">🌐</div>
-            <h3>Public Website</h3>
+
+            <div class="card-icon">
+                🌐
+            </div>
+
+            <h3>
+                Public Website
+            </h3>
+
             <p>
-                Anyone with the website address can open the page
-                and watch whenever the broadcast is online.
+                Anyone with the Bharat Kirana Store Live website
+                can watch when the broadcast is online.
             </p>
+
         </div>
 
-    </div>
-
-    <div class="stream-box">
-        <code>
-            https://usb.bozztv.com/bharatkirana53/index.m3u8
-        </code>
     </div>
 
 </section>
 
 </main>
 
+
+<!-- FOOTER -->
+
 <footer>
-    © 2026 <strong>Bharat Kirana Store Live</strong> — All Rights Reserved.
+
+    © 2026
+    <strong>Bharat Kirana Store Live</strong>
+    — All Rights Reserved.
+
 </footer>
+
 
 <script>
 
-const STREAM_URL =
-"https://usb.bozztv.com/bharatkirana53/index.m3u8";
+/*
+   Refresh the SSH101 player
+*/
 
-let hls = null;
+function refreshPlayer() {
 
-const video = document.getElementById("video");
-const offlineScreen = document.getElementById("offlineScreen");
-const liveLabel = document.getElementById("liveLabel");
-const statusText = document.getElementById("statusText");
-const statusIndicator = document.getElementById("statusIndicator");
-const heroStatus = document.getElementById("heroStatus");
-const heroDot = document.getElementById("heroDot");
+    const iframe = document.querySelector(
+        ".player-container iframe"
+    );
 
+    const currentSrc = iframe.src;
 
-function setOnline() {
+    iframe.src = "";
 
-    offlineScreen.style.display = "none";
+    setTimeout(function() {
 
-    liveLabel.textContent = "● LIVE";
-    liveLabel.style.background = "#dc2626";
+        iframe.src = currentSrc;
 
-    statusText.textContent = "Stream Online";
+    }, 100);
 
-    statusIndicator.style.background = "#22c55e";
-    statusIndicator.style.boxShadow =
-        "0 0 12px #22c55e";
-
-    heroStatus.textContent = "LIVE NOW";
-
-    heroDot.style.background = "#22c55e";
-    heroDot.style.boxShadow =
-        "0 0 12px #22c55e";
 }
 
 
-function setOffline() {
-
-    offlineScreen.style.display = "flex";
-
-    liveLabel.textContent = "OFFLINE";
-    liveLabel.style.background = "#374151";
-
-    statusText.textContent = "Stream Offline";
-
-    statusIndicator.style.background = "#ef4444";
-    statusIndicator.style.boxShadow =
-        "0 0 12px #ef4444";
-
-    heroStatus.textContent = "OFFLINE";
-
-    heroDot.style.background = "#ef4444";
-    heroDot.style.boxShadow =
-        "0 0 12px #ef4444";
-}
-
-
-function startStream() {
-
-    setOffline();
-
-    if (hls) {
-        hls.destroy();
-        hls = null;
-    }
-
-    video.pause();
-    video.removeAttribute("src");
-    video.load();
-
-
-    if (window.Hls && Hls.isSupported()) {
-
-        hls = new Hls({
-            enableWorker: true,
-            lowLatencyMode: true,
-            backBufferLength: 30
-        });
-
-        hls.loadSource(STREAM_URL);
-
-        hls.attachMedia(video);
-
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-
-            setOnline();
-
-            video.play().catch(function () {
-                console.log("Autoplay requires user interaction.");
-            });
-
-        });
-
-        hls.on(Hls.Events.ERROR, function (event, data) {
-
-            if (data.fatal) {
-
-                setOffline();
-
-                if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-
-                    setTimeout(function () {
-                        startStream();
-                    }, 5000);
-
-                }
-
-            }
-
-        });
-
-    }
-
-    else if (
-        video.canPlayType("application/vnd.apple.mpegurl")
-    ) {
-
-        video.src = STREAM_URL;
-
-        video.addEventListener(
-            "loadedmetadata",
-            function () {
-
-                setOnline();
-
-                video.play().catch(function () {});
-
-            },
-            { once: true }
-        );
-
-        video.addEventListener(
-            "error",
-            function () {
-                setOffline();
-            },
-            { once: true }
-        );
-
-    }
-
-    else {
-
-        setOffline();
-
-        alert(
-            "Your browser does not support HLS video playback."
-        );
-
-    }
-}
-
-
-video.addEventListener("playing", function () {
-    setOnline();
-});
-
-
-video.addEventListener("pause", function () {
-
-    if (!video.ended) {
-        return;
-    }
-
-    setOffline();
-
-});
-
+/*
+   Local chat
+*/
 
 function sendMessage(event) {
 
@@ -817,9 +753,17 @@ function sendMessage(event) {
     message.className =
         "chat-message";
 
-    message.innerHTML =
-        "<strong>You:</strong> " +
-        escapeHTML(text);
+    const strong =
+        document.createElement("strong");
+
+    strong.textContent =
+        "You: ";
+
+    message.appendChild(strong);
+
+    message.appendChild(
+        document.createTextNode(text)
+    );
 
     messages.appendChild(message);
 
@@ -829,20 +773,6 @@ function sendMessage(event) {
     input.value = "";
 
 }
-
-
-function escapeHTML(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-
-startStream();
 
 </script>
 
